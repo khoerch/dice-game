@@ -15,12 +15,16 @@
     </button>
 
     <div v-if="diceRolled" class="result">
-      Hello!!
-      <ul>
-        <li v-for="(value, key) in rollResult" :key="value">
-          {{ key }}: {{ value }}
-        </li>
-      </ul>
+      <h2>Results:</h2>
+      <p>Dice Numbers: {{rollResult.roll}}</p>
+      <p>Score: {{rollResult.score}}</p>
+      <p v-bind:class="{'result-false': !rollResult.success}">Success: {{rollResult.success}}</p>
+      <p v-bind:class="{'result-false': !rollResult.tripleExists}">Three of a Kind: {{rollResult.tripleExists}}</p>
+      <p v-bind:class="{'result-false': !rollResult.quadExists}">Four of a Kind: {{rollResult.quadExists}}</p>
+      <p v-bind:class="{'result-false': !rollResult.quintExists}">Five of a Kind: {{rollResult.quintExists}}</p>
+      <p v-bind:class="{'result-false': !rollResult.sextExists}">Six of a Kind: {{rollResult.sextExists}}</p>
+      <p v-bind:class="{'result-false': !rollResult.straight}">Straight: {{rollResult.straight}}</p>
+      <p v-bind:class="{'result-false': !rollResult.threePairs}">Three Pairs: {{rollResult.threePairs}}</p>
     </div>
   </div>
 </template>
@@ -296,6 +300,9 @@ export default {
 <style scoped>
 .active-dice {
   background: blue;
+}
+.result-false {
+  color: red;
 }
 h3 {
   margin: 40px 0 0;
