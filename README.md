@@ -1,4 +1,5 @@
 # dice-game
+This is a project to simulate rolls for a dice game, and to keep stats of rolls over time.
 
 ## Project setup
 ```
