@@ -37,7 +37,12 @@ export default {
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
       selectedDiceNumber: 5,
       diceRolled: false,
-      rollResult: {
+      rollResult: null,
+    }
+  },
+  methods: {
+    rollTheDice(diceNumber) {
+      this.rollResult = {
         roll: null,
         score: 0,
         success: false,
@@ -47,11 +52,7 @@ export default {
         sextExists: false,
         straight: false,
         threePairs: false
-      },
-    }
-  },
-  methods: {
-    rollTheDice(diceNumber) {
+      }
       this.diceRolled = true
       const dieNumbers = [Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6)]
 
