@@ -1,5 +1,9 @@
 <template>
-  <div class="simulator">
+  <div class="simulator" v-bind:class="{'win-screen': winScenario}">
+    <h2>Total Score: {{ totalScore }}</h2>
+    <h2>Current Role: {{ currentRoleScore }}</h2>
+    <h2>Zero Tracker: {{ zeroTracker }}</h2>
+
     <div class="dice-select">
       <div v-for="(value, index) in dicePicker" :key="value">
         <button 
@@ -14,7 +18,13 @@
       Roll them dice!
     </button>
 
-    <div v-if="diceRolled" class="result">
+    <div v-if="turnInProgress" class="result">
+      <div>
+        <button @click="updateTotalScore(currentRoleScore)"> 
+          Finish turn
+        </button>
+      </div>
+
       <h2>Results:</h2>
       <p>Dice Numbers: {{rollResult.roll}}</p>
       <p>Score: {{rollResult.score}}</p>
@@ -36,12 +46,31 @@ export default {
     return {
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
       selectedDiceNumber: 5,
-      diceRolled: false,
+      turnInProgress: false,
       rollResult: null,
+      currentRoleScore: 0,
+      totalScore: 0,
+      zeroTracker: 0,
+      scoringDice: [],
+      winScenario: false,
     }
   },
   methods: {
+    updateTotalScore(val) {
+      // Check zerp status
+      val === 0 ? this.zeroTracker++ : this.zeroTracker = 0
+      if (this.zeroTracker > 2) this.totalScore = 0
+
+      // Update score and check for win condition
+      this.totalScore += val
+      if (this.totalScore >= 10000) this.winScenario = true
+
+      // Reset variables
+      this.currentRoleScore = 0
+      this.turnInProgress = false
+    },
     rollTheDice(diceNumber) {
+      this.scoringDice = []
       this.rollResult = {
         roll: null,
         score: 0,
@@ -53,7 +82,7 @@ export default {
         straight: false,
         threePairs: false
       }
-      this.diceRolled = true
+      this.turnInProgress = true
       const dieNumbers = [Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6)]
 
       if (diceNumber === 0) this.oneDieRoll(dieNumbers.slice(0,1))
@@ -62,11 +91,21 @@ export default {
       if (diceNumber === 3) this.fourDieRoll(dieNumbers.slice(0,4))
       if (diceNumber === 4) this.fiveDieRoll(dieNumbers.slice(0,5))
       if (diceNumber === 5) this.sixDieRoll(dieNumbers)
+
+      if (this.rollResult.score === 0) {
+        this.currentRoleScore = 0
+        this.updateTotalScore(0)
+      } else {
+        this.currentRoleScore += this.rollResult.score
+      }
     },
     // Different dice roll calculations
     oneDieRoll(roll) {
       this.rollResult.roll = roll
       // Standard scores for ones and fives
+      // if (roll.includes(1)) {
+
+      // }
       this.rollResult.score = roll.includes(1) ? 100 : (roll.includes(5) ? 50 : 0)
       this.rollResult.success = this.rollResult.score > 0 ? true : false
     },
@@ -304,6 +343,9 @@ export default {
 }
 .result-false {
   color: red;
+}
+.win-screen {
+  background: green;
 }
 h3 {
   margin: 40px 0 0;
