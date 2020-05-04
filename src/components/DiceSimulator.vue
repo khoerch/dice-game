@@ -4,7 +4,7 @@
     <h2>Current Role: {{ currentRoleScore }}</h2>
     <h2>Zero Tracker: {{ zeroTracker }}</h2>
 
-    <div class="dice-select">
+    <div v-if="!turnInProgress" class="dice-select">
       <div v-for="(value, index) in dicePicker" :key="value">
         <button 
             v-bind:class="[index <= selectedDiceNumber ? 'active-dice' : '', 'button']"
@@ -12,15 +12,21 @@
           {{ value }}
         </button>
       </div>
-    </div>
 
-    <button @click="rollTheDice(selectedDiceNumber)"> 
-      Roll them dice!
-    </button>
+      <button @click="rollTheDice(selectedDiceNumber)"> 
+        Roll them dice!
+      </button>
+    </div>
 
     <div v-if="turnInProgress" class="result">
       <div>
-        <button @click="updateTotalScore(currentRoleScore)"> 
+        <button 
+            v-for="(value, index) in scoringDice" 
+            @click="rollTheDice(currentRoleScore)" 
+            :key="index"> 
+          Bank {{ value.type }} ({{ value.score }}) and reroll?
+        </button>
+        <button @click="finishTurn(currentRoleScore)"> 
           Finish turn
         </button>
       </div>
@@ -56,7 +62,7 @@ export default {
     }
   },
   methods: {
-    updateTotalScore(val) {
+    finishTurn(val) {
       // Check zerp status
       val === 0 ? this.zeroTracker++ : this.zeroTracker = 0
       if (this.zeroTracker > 2) this.totalScore = 0
@@ -92,49 +98,50 @@ export default {
       if (diceNumber === 4) this.fiveDieRoll(dieNumbers.slice(0,5))
       if (diceNumber === 5) this.sixDieRoll(dieNumbers)
 
-      if (this.rollResult.score === 0) {
-        this.currentRoleScore = 0
-        this.updateTotalScore(0)
-      } else {
-        this.currentRoleScore += this.rollResult.score
+      this.currentRoleScore = this.rollResult.score === 0 ? 0 : this.currentRoleScore += this.rollResult.score
+    },
+    // Standard scores for ones and fives
+    checkForOnesAndFives(roll) {
+      let score = 0
+      for (const die of roll) {
+        if (die === 1) {
+          this.scoringDice.push({type: "One", score: 100, dice: 1})
+          score += 100
+        }
+        if (die === 5) {
+          this.scoringDice.push({type: "Five", score: 50, dice: 1})
+          score += 50
+        }
       }
+
+      return score
     },
     // Different dice roll calculations
     oneDieRoll(roll) {
       this.rollResult.roll = roll
-      // Standard scores for ones and fives
-      // if (roll.includes(1)) {
-
-      // }
-      this.rollResult.score = roll.includes(1) ? 100 : (roll.includes(5) ? 50 : 0)
+      const onesAndFives = this.checkForOnesAndFives(roll)
+      this.rollResult.score = onesAndFives
       this.rollResult.success = this.rollResult.score > 0 ? true : false
     },
     twoDieRoll(roll) {
       this.rollResult.roll = roll
-      // Standard scores for ones and fives
-      let scoreA = roll[0] === 1 ? 100 : (roll[0] === 5 ? 50 : 0)
-      let scoreB = roll[1] === 1 ? 100 : (roll[1] === 5 ? 50 : 0)
-      this.rollResult.score = scoreA + scoreB
+      const onesAndFives = this.checkForOnesAndFives(roll)
+      this.rollResult.score = onesAndFives
       this.rollResult.success = this.rollResult.score > 0 ? true : false
     },
     threeDieRoll(roll) {
       this.rollResult.roll = roll
       // Check for three of a kind
-      if (roll[0] === roll[1] && roll[1] === roll[2]){
+      if (roll[0] === roll[1] && roll[1] === roll[2]) {
+        const tripleScore = roll[0] * (roll[0] === 1 ? 1000 : 100)
+        this.scoringDice.push({type: `${roll[0]}s`, score: tripleScore, dice: 3})
+
         this.rollResult.tripleExists = true
-        if (roll[0] === 1) {
-          this.rollResult.score = roll[0] * 1000
-          this.rollResult.success = true
-        } else {
-          this.rollResult.score = roll[0] * 100
-          this.rollResult.success = true
-        }
+        this.rollResult.score = tripleScore
+        this.rollResult.success = true
       } else {
-        // Standard scores for ones and fives
-        let scoreA = roll[0] === 1 ? 100 : (roll[0] === 5 ? 50 : 0)
-        let scoreB = roll[1] === 1 ? 100 : (roll[1] === 5 ? 50 : 0)
-        let scoreC = roll[2] === 1 ? 100 : (roll[2] === 5 ? 50 : 0)
-        this.rollResult.score = scoreA + scoreB + scoreC
+        const onesAndFives = this.checkForOnesAndFives(roll)
+        this.rollResult.score = onesAndFives
         this.rollResult.success = this.rollResult.score > 0 ? true : false
       }
     },
@@ -144,37 +151,28 @@ export default {
       for (const x of roll) {
         let likeDice = roll.filter(y => y === x)
         if (likeDice.length === 3) {
+          const tripleScore = likeDice[0] * (likeDice[0] === 1 ? 1000 : 100)
+          this.scoringDice.push({type: `${likeDice[0]}s`, score: tripleScore, dice: 3})
+          const unlikeDice = roll.filter(i => i !== likeDice[0])
+          const onesAndFives = this.checkForOnesAndFives(unlikeDice)
+
           this.rollResult.tripleExists = true
-          let unlikeDie = roll.find(i => i !== likeDice[0])
-          let unlikeDieScore = unlikeDie === 1 ? 100 : (unlikeDie === 5 ? 50 : 0)
-          if (likeDice[0] === 1) {
-            this.rollResult.score = likeDice[0] * 1000 + unlikeDieScore
-            this.rollResult.success = true
-            return
-          } else {
-            this.rollResult.score = likeDice[0] * 100 + unlikeDieScore
-            this.rollResult.success = true
-            return
-          }
+          this.rollResult.score = tripleScore + onesAndFives
+          this.rollResult.success = true
+          return
         }
       }
       // Check for four of a kind
       if (roll.every(x => x === roll[0])) {
+        const quadScore = roll[0] * (roll[0] === 1 ? 1000 : 100) * 2
+        this.scoringDice.push({type: `${roll[0]}s`, score: quadScore, dice: 4})
+
         this.rollResult.quadExists = true
-        if (roll[0] === 1) {
-          this.rollResult.score = roll[0] * 1000 * 2
-          this.rollResult.success = true
-        } else {
-          this.rollResult.score = roll[0] * 100 * 2
-          this.rollResult.success = true
-        }
+        this.rollResult.score = quadScore
+        this.rollResult.success = true
       } else {
-        // Standard scores for ones and fives
-        let scoreA = roll[0] === 1 ? 100 : (roll[0] === 5 ? 50 : 0)
-        let scoreB = roll[1] === 1 ? 100 : (roll[1] === 5 ? 50 : 0)
-        let scoreC = roll[2] === 1 ? 100 : (roll[2] === 5 ? 50 : 0)
-        let scoreD = roll[3] === 1 ? 100 : (roll[3] === 5 ? 50 : 0)
-        this.rollResult.score = scoreA + scoreB + scoreC + scoreD
+        const onesAndFives = this.checkForOnesAndFives(roll)
+        this.rollResult.score = onesAndFives
         this.rollResult.success = this.rollResult.score > 0 ? true : false
       }
     },
@@ -183,54 +181,39 @@ export default {
       // Checks for three of a kind or four of a kind
       for (const x of roll) {
         let likeDice = roll.filter(y => y === x)
+        const unlikeDice = roll.filter(i => i !== likeDice[0])
         if (likeDice.length === 3) {
+          const tripleScore = likeDice[0] * (likeDice[0] === 1 ? 1000 : 100)
+          this.scoringDice.push({type: `${likeDice[0]}s`, score: tripleScore, dice: 3})
+          const onesAndFives = this.checkForOnesAndFives(unlikeDice)
+
           this.rollResult.tripleExists = true
-          let unlikeDie = roll.filter(i => i !== likeDice[0])
-          let unlikeDieScoreA = unlikeDie[0] === 1 ? 100 : (unlikeDie[0] === 5 ? 50 : 0)
-          let unlikeDieScoreB = unlikeDie[1] === 1 ? 100 : (unlikeDie[1] === 5 ? 50 : 0)
-          if (likeDice[0] === 1) {
-            this.rollResult.score = likeDice[0] * 1000 + unlikeDieScoreA + unlikeDieScoreB
-            this.rollResult.success = true
-            return
-          } else {
-            this.rollResult.score = likeDice[0] * 100 + unlikeDieScoreA + unlikeDieScoreB
-            this.rollResult.success = true
-            return
-          }
+          this.rollResult.score = tripleScore + onesAndFives
+          this.rollResult.success = true
+          return
         }
         if (likeDice.length === 4) {
+          const quadScore = likeDice[0] * (likeDice[0] === 1 ? 1000 : 100) * 2
+          this.scoringDice.push({type: `${likeDice[0]}s`, score: quadScore, dice: 4})
+          const onesAndFives = this.checkForOnesAndFives(unlikeDice)
+
           this.rollResult.quadExists = true
-          let unlikeDie = roll.find(i => i !== likeDice[0])
-          let unlikeDieScore = unlikeDie === 1 ? 100 : (unlikeDie === 5 ? 50 : 0)
-          if (likeDice[0] === 1) {
-            this.rollResult.score = likeDice[0] * 1000 * 2 + unlikeDieScore
-            this.rollResult.success = true
-            return
-          } else {
-            this.rollResult.score = likeDice[0] * 100 * 2 + unlikeDieScore
-            this.rollResult.success = true
-            return
-          }
+          this.rollResult.score = quadScore + onesAndFives
+          this.rollResult.success = true
+          return
         }
       }
       // Checks for five of a kind
-      if (roll.every(x => x === roll[0])){
+      if (roll.every(x => x === roll[0])) {
+        const quintScore = roll[0] * (roll[0] === 1 ? 1000 : 100) * 2 * 2
+        this.scoringDice.push({type: `${roll[0]}s`, score: quintScore, dice: 5})
+
         this.rollResult.quintExists = true
-        if (roll[0] === 1) {
-          this.rollResult.score = roll[0] * 1000 * 3
-          this.rollResult.success = true
-        } else {
-          this.rollResult.score = roll[0] * 100 * 3
-          this.rollResult.success = true
-        }
+        this.rollResult.score = quintScore
+        this.rollResult.success = true
       } else {
-        // Standard scores for ones and fives
-        let scoreA = roll[0] === 1 ? 100 : (roll[0] === 5 ? 50 : 0)
-        let scoreB = roll[1] === 1 ? 100 : (roll[1] === 5 ? 50 : 0)
-        let scoreC = roll[2] === 1 ? 100 : (roll[2] === 5 ? 50 : 0)
-        let scoreD = roll[3] === 1 ? 100 : (roll[3] === 5 ? 50 : 0)
-        let scoreE = roll[4] === 1 ? 100 : (roll[4] === 5 ? 50 : 0)
-        this.rollResult.score = scoreA + scoreB + scoreC + scoreD + scoreE
+        const onesAndFives = this.checkForOnesAndFives(roll)
+        this.rollResult.score = onesAndFives
         this.rollResult.success = this.rollResult.score > 0 ? true : false
       }
     },
@@ -242,6 +225,7 @@ export default {
       // Check for two, three, four, or five of a kind
       for (const x of roll) {
         let likeDice = roll.filter(y => y === x)
+        const unlikeDice = roll.filter(i => i !== likeDice[0])
         if (likeDice.length === 2) {
           doubleCount++
         }
@@ -253,83 +237,64 @@ export default {
           }
         }
         if (likeDice.length === 4) {
+          const quadScore = likeDice[0] * (likeDice[0] === 1 ? 1000 : 100) * 2
+          this.scoringDice.push({type: `${likeDice[0]}s`, score: quadScore, dice: 4})
+          const onesAndFives = this.checkForOnesAndFives(unlikeDice)
+
           this.rollResult.quadExists = true
-          let unlikeDie = roll.filter(i => i !== likeDice[0])
-          let unlikeDieScoreA = unlikeDie[0] === 1 ? 100 : (unlikeDie[0] === 5 ? 50 : 0)
-          let unlikeDieScoreB = unlikeDie[1] === 1 ? 100 : (unlikeDie[1] === 5 ? 50 : 0)
-          if (likeDice[0] === 1) {
-            this.rollResult.score = likeDice[0] * 1000 * 2 + unlikeDieScoreA + unlikeDieScoreB
-            this.rollResult.success = true
-            return
-          } else {
-            this.rollResult.score = likeDice[0] * 100 * 2 + unlikeDieScoreA + unlikeDieScoreB
-            this.rollResult.success = true
-            return
-          }
+          this.rollResult.score = quadScore + onesAndFives
+          this.rollResult.success = true
+          return
         }
         if (likeDice.length === 5) {
-          this.rollResult.quintExists = true
-          let unlikeDie = roll.find(i => i !== likeDice[0])
-          let unlikeDieScore = unlikeDie === 1 ? 100 : (unlikeDie === 5 ? 50 : 0)
-          if (likeDice[0] === 1) {
-            this.rollResult.score = likeDice[0] * 1000 * 3 + unlikeDieScore
-            this.rollResult.success = true
-            return
-          } else {
-            this.rollResult.score = likeDice[0] * 100 * 3 + unlikeDieScore
-            this.rollResult.success = true
-            return
-          }
+          const quintScore = likeDice[0] * (likeDice[0] === 1 ? 1000 : 100) * 2 * 2
+          this.scoringDice.push({type: `${likeDice[0]}s`, score: quintScore, dice: 5})
+          const onesAndFives = this.checkForOnesAndFives(unlikeDice)
+
+          this.rollResult.quadExists = true
+          this.rollResult.score = quintScore + onesAndFives
+          this.rollResult.success = true
+          return
         }
       }
       // Checks for a straight
       if (roll.includes(1) && roll.includes(2) && roll.includes(3) && roll.includes(4) && roll.includes(5) && roll.includes(6)) {
+        this.scoringDice.push({type: `Straight`, score: 1500, dice: 6})
         this.rollResult.straight = true
         this.rollResult.score = 1500
         this.rollResult.success = true
       } else if (roll.every(x => x === roll[0])) {
         // Checks for six of a kind
+        this.scoringDice.push({type: `SIX of a KIND`, score: 10000, dice: 6})
         this.rollResult.sextExists = true
-        if (roll[0] === 1) {
-          this.rollResult.score = roll[0] * 1000 * 4
-          this.rollResult.success = true
-        } else {
-          this.rollResult.score = roll[0] * 100 * 4
-          this.rollResult.success = true
-        }
+        this.rollResult.score = 10000
+        this.rollResult.success = true
       } else if (doubleCount === 6) {
         // Checks for three pairs
+        this.scoringDice.push({type: `Three Pair`, score: 1000, dice: 6})
         this.rollResult.threePairs = true
         this.rollResult.score = 1000
         this.rollResult.success = true
-      }else if (tripleCount === 6) {
+      } else if (tripleCount === 6) {
         // Checks for two three of a kinds
         let tripleScoreA = tripleValues[0] === 1 ? tripleValues[0] * 1000 : tripleValues[0] * 100
         let tripleScoreB = tripleValues[1] === 1 ? tripleValues[1] * 1000 : tripleValues[1] * 100
+        this.scoringDice.push({type: `${tripleValues[0]}s`, score: tripleScoreA, dice: 3})
+        this.scoringDice.push({type: `${tripleValues[1]}s`, score: tripleScoreB, dice: 3})
         this.rollResult.score = tripleScoreA + tripleScoreB
         this.rollResult.success = true
       } else if (tripleCount === 3) {
         // checks for one three of a kind
-        let unlikeDie = roll.filter(i => i !== tripleValues[0])
-        let unlikeDieScoreA = unlikeDie[0] === 1 ? 100 : (unlikeDie[0] === 5 ? 50 : 0)
-        let unlikeDieScoreB = unlikeDie[1] === 1 ? 100 : (unlikeDie[1] === 5 ? 50 : 0)
-        let unlikeDieScoreC = unlikeDie[2] === 1 ? 100 : (unlikeDie[2] === 5 ? 50 : 0)
-        if (tripleValues[0] === 1) {
-          this.rollResult.score = tripleValues[0] * 1000 + unlikeDieScoreA + unlikeDieScoreB + unlikeDieScoreC
-          this.rollResult.success = true
-        } else {
-          this.rollResult.score = tripleValues[0] * 100 + unlikeDieScoreA + unlikeDieScoreB + unlikeDieScoreC
-          this.rollResult.success = true
-        }
+        const tripleScore = tripleValues[0] * (tripleValues[0] === 1 ? 1000 : 100)
+        const unlikeDice = roll.filter(i => i !== tripleValues[0])
+        this.scoringDice.push({type: `${tripleValues[0]}s`, score: tripleScore, dice: 3})
+        const onesAndFives = this.checkForOnesAndFives(unlikeDice)
+        this.rollResult.tripleExists = true
+        this.rollResult.score = tripleScore + onesAndFives
+        this.rollResult.success = true
       } else {
-        // Standard scores for ones and fives
-        let scoreA = roll[0] === 1 ? 100 : (roll[0] === 5 ? 50 : 0)
-        let scoreB = roll[1] === 1 ? 100 : (roll[1] === 5 ? 50 : 0)
-        let scoreC = roll[2] === 1 ? 100 : (roll[2] === 5 ? 50 : 0)
-        let scoreD = roll[3] === 1 ? 100 : (roll[3] === 5 ? 50 : 0)
-        let scoreE = roll[4] === 1 ? 100 : (roll[4] === 5 ? 50 : 0)
-        let scoreF = roll[5] === 1 ? 100 : (roll[5] === 5 ? 50 : 0)
-        this.rollResult.score = scoreA + scoreB + scoreC + scoreD + scoreE + scoreF
+        const onesAndFives = this.checkForOnesAndFives(roll)
+        this.rollResult.score = onesAndFives
         this.rollResult.success = this.rollResult.score > 0 ? true : false
       }
     },
