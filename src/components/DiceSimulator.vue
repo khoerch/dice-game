@@ -79,6 +79,8 @@ export default {
       this.turnInProgress = false
     },
     reRollTheDice(val) {
+      // START HERE!!!
+      // Only take the banked score on a reroll!!!
       this.selectedDiceNumber -= val
       this.rollTheDice(this.selectedDiceNumber)
     },
