@@ -1,7 +1,7 @@
 <template>
   <div class="simulator" v-bind:class="{'win-screen': winScenario}">
     <h2>Total Score: {{ totalScore }}</h2>
-    <h2>Current Role: {{ currentRoleScore }}</h2>
+    <h2>Bank: {{ currentTurnScore }}</h2>
     <h2>Zero Tracker: {{ zeroTracker }}</h2>
 
     <div v-if="!turnInProgress" class="dice-select">
@@ -22,11 +22,11 @@
       <div>
         <button 
             v-for="(value, index) in scoringDice" 
-            @click="reRollTheDice(value.dice)" 
+            @click="reRollTheDice(value)" 
             :key="index"> 
           Bank {{ value.type }} ({{ value.score }}) and reroll?
         </button>
-        <button @click="finishTurn(currentRoleScore)"> 
+        <button @click="finishTurn()"> 
           Finish turn
         </button>
       </div>
@@ -56,7 +56,7 @@ export default {
       selectedDiceNumber: 5,
       turnInProgress: false,
       rollResult: null,
-      currentRoleScore: 0,
+      currentTurnScore: 0,
       totalScore: 0,
       zeroTracker: 0,
       scoringDice: [],
@@ -64,24 +64,26 @@ export default {
     }
   },
   methods: {
-    finishTurn(val) {
+    finishTurn() {
       // Check zerp status
-      val === 0 ? this.zeroTracker++ : this.zeroTracker = 0
+      this.rollResult.score === 0 ? this.zeroTracker++ : this.zeroTracker = 0
       if (this.zeroTracker > 2) this.totalScore = 0
 
       // Update score and check for win condition
-      this.totalScore += val
+      this.currentTurnScore = this.rollResult.score === 0 ? 0 : this.currentTurnScore += this.rollResult.score
+      this.totalScore += this.currentTurnScore
       if (this.totalScore >= 10000) this.winScenario = true
 
       // Reset variables
-      this.currentRoleScore = 0
+      this.currentTurnScore = 0
       this.selectedDiceNumber = 5
       this.turnInProgress = false
     },
     reRollTheDice(val) {
       // START HERE!!!
       // Only take the banked score on a reroll!!!
-      this.selectedDiceNumber -= val
+      this.selectedDiceNumber -= val.dice
+      this.currentTurnScore += val.score
       this.rollTheDice(this.selectedDiceNumber)
     },
     rollTheDice(diceNumber) {
@@ -108,10 +110,12 @@ export default {
       if (diceNumber === 4) this.fiveDieRoll(dieNumbers.slice(0,5))
       if (diceNumber === 5) this.sixDieRoll(dieNumbers)
 
+      if (this.rollResult.score === 0) {
+        this.currentTurnScore = 0
+      }
+
       // Post new rolls to the database
       managedata.setNewRoll(this.rollResult)
-
-      this.currentRoleScore = this.rollResult.score === 0 ? 0 : this.currentRoleScore += this.rollResult.score
     },
     // Standard scores for ones and fives
     checkForOnesAndFives(roll) {
