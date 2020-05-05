@@ -22,7 +22,7 @@
       <div>
         <button 
             v-for="(value, index) in scoringDice" 
-            @click="rollTheDice(currentRoleScore)" 
+            @click="reRollTheDice(value.dice)" 
             :key="index"> 
           Bank {{ value.type }} ({{ value.score }}) and reroll?
         </button>
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import managedata from '../helpers/managedata'
+
 export default {
   name: 'DiceSimulator',
   data: function () {
@@ -73,12 +75,18 @@ export default {
 
       // Reset variables
       this.currentRoleScore = 0
+      this.selectedDiceNumber = 5
       this.turnInProgress = false
+    },
+    reRollTheDice(val) {
+      this.selectedDiceNumber -= val
+      this.rollTheDice(this.selectedDiceNumber)
     },
     rollTheDice(diceNumber) {
       this.scoringDice = []
       this.rollResult = {
         roll: null,
+        dice: diceNumber + 1,
         score: 0,
         success: false,
         tripleExists: false,
@@ -97,6 +105,9 @@ export default {
       if (diceNumber === 3) this.fourDieRoll(dieNumbers.slice(0,4))
       if (diceNumber === 4) this.fiveDieRoll(dieNumbers.slice(0,5))
       if (diceNumber === 5) this.sixDieRoll(dieNumbers)
+
+      // Post new rolls to the database
+      managedata.setNewRoll(this.rollResult)
 
       this.currentRoleScore = this.rollResult.score === 0 ? 0 : this.currentRoleScore += this.rollResult.score
     },
