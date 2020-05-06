@@ -10,6 +10,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  mounted: function () {
+    this.$store.dispatch('getHistoricalRolls')
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
