@@ -1,16 +1,17 @@
 <template>
   <div class="about">
-    <h1>This is a stats page</h1>
+    <h1>Roll statistics displayed here.</h1>
+    <RollStatistics />
   </div>
 </template>
 
 <script>
-// import HelloWorld from '@/components/HelloWorld.vue'
+import RollStatistics from '@/components/RollStatistics.vue'
 
 export default {
   name: 'Stats',
   components: {
-    
+    RollStatistics
   }
 }
 </script>

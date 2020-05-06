@@ -27,8 +27,12 @@ export default new Vuex.Store({
   actions: {
     getHistoricalRolls ({ commit }) {
       db.collection("rolls").limit(5000).get().then(res => {
+        const rolls = []
         console.log('Historical rolls count: ', res.docs.length)
-        commit('setRolls', res.docs)
+        for (const doc of res.docs) {
+          rolls.push(doc.data())
+        }
+        commit('setRolls', rolls)
       });
     }
   },
