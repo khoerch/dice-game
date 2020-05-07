@@ -15,26 +15,75 @@
       {{ summarizedData }}
     </div>
 
+    <bar-chart :chart-data="chartData" :options="chartOptions"/>
+
   </div>
 </template>
 
 <script>
+import BarChart from '../charts/BarChart'
 
 export default {
   name: 'RollStatistics',
+  components: {
+    BarChart
+  },
   data: function () {
     return {
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
-      selectedDiceNumber: 5,
-      summarizedData: null
+      selectedDiceNumber: -1,
+      summarizedData: null,
+      chartData: null,
+      chartOptions: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
     }
   },
   watch: {
     selectedDiceNumber: function() {
       this.summarizeHistoricalData()
+      this.summarizeDataforChart()
     }
   },
   methods: {
+    summarizeDataforChart() {
+      const rolls = this.$store.state.allRolls.filter(roll => roll.dice === (this.selectedDiceNumber+1))
+      const scoreTypes = []
+      const chartSummary = []
+      for (const roll of rolls) {
+        if (!scoreTypes.includes(roll.score)) {
+          scoreTypes.push(roll.score)
+        }
+      }
+      scoreTypes.sort((a, b) => a - b)
+
+      let start = 0
+      while (start <= scoreTypes[scoreTypes.length - 1]) {
+        const count = rolls.filter(roll => roll.score === start).length
+        chartSummary.push({
+          label: start,
+          data: count
+        })
+        start += 50
+      }
+
+      this.chartData = {
+        labels: chartSummary.map(elem => elem.label),
+        datasets: [{
+            label: '# of Votes',
+            data: chartSummary.map(elem => elem.data),
+            backgroundColor: [],
+            borderColor: [],
+            borderWidth: 1
+        }]
+      }
+    },
     summarizeHistoricalData() {
       const rolls = this.$store.state.allRolls.filter(roll => roll.dice === (this.selectedDiceNumber+1))
       console.log("Rolls in database", rolls.length)
