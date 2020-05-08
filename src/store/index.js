@@ -17,7 +17,75 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    allRolls: []
+    allRolls: [],
+    rollProbabilities: [
+      {
+        dice: 1,
+        averageScore: 25,
+        success: 0.3333,
+        triple: 0,
+        quad: 0,
+        quint: 0,
+        sext: 0,
+        threePair: 0,
+        straight: 0
+      },
+      {
+        dice: 2,
+        averageScore: 50,
+        success: 0.5565,
+        triple: 0,
+        quad: 0,
+        quint: 0,
+        sext: 0,
+        threePair: 0,
+        straight: 0
+      },
+      {
+        dice: 3,
+        averageScore: 87,
+        success: 0.7231,
+        triple: 0.0279,
+        quad: 0,
+        quint: 0,
+        sext: 0,
+        threePair: 0,
+        straight: 0
+      },
+      {
+        dice: 4,
+        averageScore: 144,
+        success: 0.8430,
+        triple: 0.0924,
+        quad: 0.0047,
+        quint: 0,
+        sext: 0,
+        threePair: 0,
+        straight: 0
+      },
+      {
+        dice: 5,
+        averageScore: 225,
+        success: 0.9233,
+        triple: 0.1930,
+        quad: 0.0192,
+        quint: 0.0008,
+        sext: 0,
+        threePair: 0,
+        straight: 0
+      },
+      {
+        dice: 6,
+        averageScore: 390,
+        success: 0.9770,
+        triple: 0.3149,
+        quad: 0.0484,
+        quint: 0.0039,
+        sext: 0.00012,
+        threePair: 0.0392,
+        straight: 0.0155
+      },
+    ]
   },
   mutations: {
     setRolls (state, rolls) {

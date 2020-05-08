@@ -15,26 +15,33 @@
       {{ summarizedData }}
     </div>
 
-    <bar-chart :chart-data="chartData" :options="chartOptions"/>
+    <doughnut-chart :chart-data="chartDataSuccesses" :options="chartOptions"/>
+    <bar-chart :chart-data="chartDataScores" :options="chartOptionsBar"/>
+    <bar-chart :chart-data="chartDataRollTypes" :options="chartOptionsBar"/>
 
   </div>
 </template>
 
 <script>
 import BarChart from '../charts/BarChart'
+import DoughnutChart from '../charts/DoughnutChart'
 
 export default {
   name: 'RollStatistics',
   components: {
-    BarChart
+    BarChart,
+    DoughnutChart
   },
   data: function () {
     return {
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
       selectedDiceNumber: -1,
       summarizedData: null,
-      chartData: null,
-      chartOptions: {
+      chartDataScores: null,
+      chartDataRollTypes: null,
+      chartDataSuccesses: null,
+      chartOptionsDoughnut: null,
+      chartOptionsBar: {
           scales: {
               yAxes: [{
                   ticks: {
@@ -73,10 +80,10 @@ export default {
         start += 50
       }
 
-      this.chartData = {
+      this.chartDataScores = {
         labels: chartSummary.map(elem => elem.label),
         datasets: [{
-            label: '# of Votes',
+            label: '# of Scores',
             data: chartSummary.map(elem => elem.data),
             backgroundColor: [],
             borderColor: [],
@@ -141,6 +148,28 @@ export default {
       this.summarizedData.sextRate = this.summarizedData.totalSexts / rolls.length
       this.summarizedData.straightRate = this.summarizedData.totalStraights / rolls.length
       this.summarizedData.threePairRate = this.summarizedData.totalThreePairs / rolls.length
+
+      this.chartDataRollTypes = {
+        labels: ['Three of a Kind', 'Four of a Kind', 'Five of a Kind', 'Six of a Kind', 'Three Pair', 'Straight'],
+        datasets: [{
+            label: '# of Roll Types',
+            data: [this.summarizedData.totalTriples, this.summarizedData.totalQuads, this.summarizedData.totalQuints, this.summarizedData.totalSexts, this.summarizedData.totalThreePairs, this.summarizedData.totalStraights],
+            backgroundColor: [],
+            borderColor: [],
+            borderWidth: 1
+        }]
+      }
+
+      this.chartDataSuccesses = {
+        labels: ['Success', 'Failure'],
+        datasets: [{
+            label: '# of Rolls',
+            data: [this.summarizedData.totalSuccesses, (this.summarizedData.totalRolls - this.summarizedData.totalSuccesses)],
+            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+            borderColor: [],
+            borderWidth: 1
+        }]
+      }
     },
   }
 }
