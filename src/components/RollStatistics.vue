@@ -15,6 +15,7 @@
       {{ summarizedData }}
     </div>
 
+    <ProbabilityOverview />
     <doughnut-chart :chart-data="chartDataSuccesses" :options="chartOptions"/>
     <bar-chart :chart-data="chartDataScores" :options="chartOptionsBar"/>
     <bar-chart :chart-data="chartDataRollTypes" :options="chartOptionsBar"/>
@@ -23,14 +24,16 @@
 </template>
 
 <script>
-import BarChart from '../charts/BarChart'
-import DoughnutChart from '../charts/DoughnutChart'
+import BarChart from './charts/BarChart'
+import DoughnutChart from './charts/DoughnutChart'
+import ProbabilityOverview from '../components/charts/ProbabilityOverview'
 
 export default {
   name: 'RollStatistics',
   components: {
     BarChart,
-    DoughnutChart
+    DoughnutChart,
+    ProbabilityOverview
   },
   data: function () {
     return {

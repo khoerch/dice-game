@@ -3,6 +3,7 @@
     <h2>Total Score: {{ totalScore }}</h2>
     <h2>Bank: {{ currentTurnScore }}</h2>
     <h2>Zero Tracker: {{ zeroTracker }}</h2>
+    <ProbabilityOverview />
 
     <div v-if="!turnInProgress" class="dice-select">
       <div v-for="(value, index) in dicePicker" :key="value">
@@ -47,9 +48,13 @@
 
 <script>
 import managedata from '../helpers/managedata'
+import ProbabilityOverview from '../components/charts/ProbabilityOverview'
 
 export default {
   name: 'DiceSimulator',
+  components: {
+    ProbabilityOverview
+  },
   data: function () {
     return {
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
