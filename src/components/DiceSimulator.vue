@@ -25,7 +25,8 @@
             v-for="(value, index) in scoringDice" 
             @click="reRollTheDice(value)" 
             :key="index"> 
-          Bank {{ value.type }} ({{ value.score }}) and reroll?
+          <!-- Bank {{ value.type }} ({{ value.score }}) and reroll? -->
+          {{ defineRerollMessage(value) }}
         </button>
         <button @click="finishTurn()"> 
           Finish turn
@@ -69,8 +70,13 @@ export default {
     }
   },
   methods: {
+    defineRerollMessage(val) {
+      const message = val.specialMessage ? val.specialMessage : `Bank ${val.type} (${val.score}) and reroll?`
+      return message
+    },
+    // Logic for turns and rerolls
     finishTurn() {
-      // Check zerp status
+      // Check zero status
       this.rollResult.score === 0 ? this.zeroTracker++ : this.zeroTracker = 0
       if (this.zeroTracker > 2) this.totalScore = 0
 
@@ -85,7 +91,11 @@ export default {
       this.turnInProgress = false
     },
     reRollTheDice(val) {
-      this.selectedDiceNumber -= val.dice
+      if (this.selectedDiceNumber - val.dice === -1) {
+        this.selectedDiceNumber = 5
+      } else {
+        this.selectedDiceNumber -= val.dice
+      }
       this.currentTurnScore += val.score
       this.rollTheDice(this.selectedDiceNumber)
     },
@@ -116,16 +126,27 @@ export default {
       if (this.rollResult.score === 0) {
         this.currentTurnScore = 0
       }
+
+      // Account for different reroll conditions, especially scoring with all dice
       if (this.scoringDice.length > 1) {
         const totalScoringDice = this.scoringDice.map(obj => obj.dice)
         const totalScore = this.scoringDice.map(obj => obj.score)
         let dice = totalScoringDice.reduce((acc, val) => acc + val)
         let score = totalScore.reduce((acc, val) => acc + val)
-        this.scoringDice.push({
-          dice: dice,
-          score: score,
-          type: "All Scores"
-        })
+        if (this.selectedDiceNumber - dice === -1) {
+          this.scoringDice = [{
+            dice: dice,
+            score: score,
+            type: "All Scores",
+            specialMessage: `All dice scored! Bank ${score} and reroll all six?`
+          }]
+        } else {
+          this.scoringDice.push({
+            dice: dice,
+            score: score,
+            type: "All Scores"
+          })
+        }
       }
 
       // Post new rolls to the database
