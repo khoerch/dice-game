@@ -85,8 +85,6 @@ export default {
       this.turnInProgress = false
     },
     reRollTheDice(val) {
-      // START HERE!!!
-      // Only take the banked score on a reroll!!!
       this.selectedDiceNumber -= val.dice
       this.currentTurnScore += val.score
       this.rollTheDice(this.selectedDiceNumber)
@@ -117,6 +115,17 @@ export default {
 
       if (this.rollResult.score === 0) {
         this.currentTurnScore = 0
+      }
+      if (this.scoringDice.length > 1) {
+        const totalScoringDice = this.scoringDice.map(obj => obj.dice)
+        const totalScore = this.scoringDice.map(obj => obj.score)
+        let dice = totalScoringDice.reduce((acc, val) => acc + val)
+        let score = totalScore.reduce((acc, val) => acc + val)
+        this.scoringDice.push({
+          dice: dice,
+          score: score,
+          type: "All Scores"
+        })
       }
 
       // Post new rolls to the database
