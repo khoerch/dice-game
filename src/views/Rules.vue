@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="rules">
     <h1>How to Play Dice</h1>
     <h2>Rules</h2>
       <h3>Conditions</h3>
@@ -80,5 +80,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .rules {
+    padding: 5% 10%;
+    max-width: 700px;
+  }
 </style>
