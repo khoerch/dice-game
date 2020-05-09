@@ -4,29 +4,14 @@
     <h2>Bank: {{ currentTurnScore }}</h2>
     <h2>Zero Tracker: {{ zeroTracker }}</h2>
 
-    <div>
-      <button 
-            v-if="!showOddsTable"
-            @click="showOddsTable = true">
+    <!-- <div>
+      <button @click="showOddsTable = !showOddsTable">
           Show me the odds!
-        </button>
-        <button 
-            v-if="showOddsTable"
-            @click="showOddsTable = false">
-          Never tell me the odds!
-        </button>
-      <ProbabilityOverview v-if="showOddsTable"/>
-    </div>
+      </button>
+      <ProbabilityOverview v-model="showOddsTable"/>
+    </div> -->
 
     <div v-if="!turnInProgress" class="dice-select">
-      <div v-for="(value, index) in dicePicker" :key="value">
-        <button 
-            v-bind:class="[index <= selectedDiceNumber ? 'active-dice' : '', 'button']"
-            @click="selectedDiceNumber = index">
-          {{ value }}
-        </button>
-      </div>
-
       <button @click="rollTheDice(selectedDiceNumber)"> 
         Roll them dice!
       </button>
@@ -62,17 +47,16 @@
 
 <script>
 import managedata from '../helpers/managedata'
-import ProbabilityOverview from '../components/charts/ProbabilityOverview'
+// import ProbabilityOverview from '../components/charts/ProbabilityOverview'
 
 export default {
   name: 'DiceSimulator',
   components: {
-    ProbabilityOverview
+    // ProbabilityOverview
   },
   data: function () {
     return {
-      showOddsTable: false,
-      dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+      // showOddsTable: false,
       selectedDiceNumber: 5,
       turnInProgress: false,
       rollResult: null,
@@ -370,7 +354,7 @@ export default {
 
 <style scoped>
 .active-dice {
-  background: blue;
+  background: darkslategray;
 }
 .result-false {
   color: red;

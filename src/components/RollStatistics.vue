@@ -1,6 +1,13 @@
 <template>
   <div class="stats">
 
+    <div>
+      <button @click="showOddsTable = !showOddsTable">
+          Show me the odds!
+      </button>
+      <ProbabilityOverview v-model="showOddsTable"/>
+    </div>
+
     <div class="dice-select">
       <div v-for="(value, index) in dicePicker" :key="value">
         <button 
@@ -15,8 +22,7 @@
       {{ summarizedData }}
     </div>
 
-    <ProbabilityOverview />
-    <doughnut-chart :chart-data="chartDataSuccesses" :options="chartOptions"/>
+    <doughnut-chart :chart-data="chartDataSuccesses" :options="chartOptionsDoughnut"/>
     <bar-chart :chart-data="chartDataScores" :options="chartOptionsBar"/>
     <bar-chart :chart-data="chartDataRollTypes" :options="chartOptionsBar"/>
 
@@ -37,6 +43,7 @@ export default {
   },
   data: function () {
     return {
+      showOddsTable: false,
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
       selectedDiceNumber: -1,
       summarizedData: null,

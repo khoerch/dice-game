@@ -1,6 +1,6 @@
 <template>
   <div class="rules">
-    <h1>How to Play Dice</h1>
+    <h1>HOW TO PLAY DICE</h1>
     <h2>Rules</h2>
       <h3>Conditions</h3>
       <p>This game is played with six, six-sided dice and any group of two or more.</p>
@@ -81,7 +81,7 @@ export default {
 
 <style scoped>
   .rules {
-    padding: 5% 10%;
+    padding: 3% 7%;
     max-width: 700px;
   }
 </style>

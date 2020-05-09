@@ -1,23 +1,31 @@
 <template>
-  <div>
-    <table id="firstTable">
-      <thead>
-        <tr>
-          <th 
-            v-for="(col, index) in columns" 
-            :key="index" 
-            v-on:click="sortTable(col)">
-              {{ col }}
-              <div class="arrow" v-if="col == sortColumn" v-bind:class="ascending ? 'arrow_up' : 'arrow_down'"></div>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(row, index) in rows" :key="index">
-          <td v-for="(col, index) in columns" :key="index">{{displayRowData(row[col])}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="modal" v-show="value">
+    <div class="modal-wrapper" v-show="value">
+      <div class="modal-container" v-show="value">
+        <table id="firstTable">
+          <thead>
+            <tr>
+              <th 
+                v-for="(col, index) in columns" 
+                :key="index" 
+                v-on:click="sortTable(col)">
+                  {{ col }}
+                  <div class="arrow" v-if="col == sortColumn" v-bind:class="ascending ? 'arrow_up' : 'arrow_down'"></div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(row, index) in rows" :key="index">
+              <td v-for="(col, index) in columns" :key="index">{{displayRowData(row[col])}}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <button @click.prevent="closeModal">
+          Never tell me the odds!
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,6 +34,12 @@
 // See this link for table example I used: https://codepen.io/gmanricks/pen/JWOVGX
 export default {
   name: 'ProbabilityOverview',
+  props: {
+      value: {
+          required: true,
+          type: Boolean
+      }
+  },
   data: function () {
     return {
       ascending: false,
@@ -109,6 +123,9 @@ export default {
     }
   },
   methods: {
+    closeModal() {
+      this.$emit("input", !this.value);
+    },
     sortTable(col) {
       if (this.sortColumn === col) {
         this.ascending = !this.ascending;
@@ -137,14 +154,45 @@ export default {
 </script>
 
 <style scoped>
+  /* Styling for modal positioning */
+  .modal {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+  }
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .modal-container {
+    max-width: 800px;
+    min-height: 400px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  /* Styling for the stats table */
   table {
-    font-family: 'Open Sans', sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     width: 750px;
     border-collapse: collapse;
     border: 3px solid #44475C;
     margin: 10px 10px 0 10px;
   }
-
   table th {
     text-transform: uppercase;
     text-align: left;
@@ -168,39 +216,6 @@ export default {
   table tbody tr:nth-child(2n) td {
     background: #D4D8F9;
   }
-
-  table {
-    font-family: 'Open Sans', sans-serif;
-    width: 750px;
-    border-collapse: collapse;
-    border: 3px solid #44475C;
-    margin: 10px 10px 0 10px;
-  }
-
-  table th {
-    text-transform: uppercase;
-    text-align: left;
-    background: #44475C;
-    color: #FFF;
-    cursor: pointer;
-    padding: 8px;
-    min-width: 30px;
-  }
-  table th:hover {
-          background: #717699;
-        }
-  table td {
-    text-align: left;
-    padding: 8px;
-    border-right: 5px solid #7D82A8;
-  }
-  table td:last-child {
-    border-right: none;
-  }
-  table tbody tr:nth-child(2n) td {
-    background: #D4D8F9;
-  }
-
   .arrow_down {
     border-color: black transparent;
     border-style: solid;
