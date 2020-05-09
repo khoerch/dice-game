@@ -40,10 +40,10 @@ export default {
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
       selectedDiceNumber: -1,
       summarizedData: null,
-      chartDataScores: null,
-      chartDataRollTypes: null,
-      chartDataSuccesses: null,
-      chartOptionsDoughnut: null,
+      chartDataScores: {},
+      chartDataRollTypes: {},
+      chartDataSuccesses: {},
+      chartOptionsDoughnut: {},
       chartOptionsBar: {
           scales: {
               yAxes: [{

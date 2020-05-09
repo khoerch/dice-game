@@ -3,7 +3,20 @@
     <h2>Total Score: {{ totalScore }}</h2>
     <h2>Bank: {{ currentTurnScore }}</h2>
     <h2>Zero Tracker: {{ zeroTracker }}</h2>
-    <ProbabilityOverview />
+
+    <div>
+      <button 
+            v-if="!showOddsTable"
+            @click="showOddsTable = true">
+          Show me the odds!
+        </button>
+        <button 
+            v-if="showOddsTable"
+            @click="showOddsTable = false">
+          Never tell me the odds!
+        </button>
+      <ProbabilityOverview v-if="showOddsTable"/>
+    </div>
 
     <div v-if="!turnInProgress" class="dice-select">
       <div v-for="(value, index) in dicePicker" :key="value">
@@ -58,6 +71,7 @@ export default {
   },
   data: function () {
     return {
+      showOddsTable: false,
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
       selectedDiceNumber: 5,
       turnInProgress: false,

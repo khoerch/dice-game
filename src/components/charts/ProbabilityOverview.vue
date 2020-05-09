@@ -23,6 +23,7 @@
 
 <script>
 
+// See this link for table example I used: https://codepen.io/gmanricks/pen/JWOVGX
 export default {
   name: 'ProbabilityOverview',
   data: function () {
