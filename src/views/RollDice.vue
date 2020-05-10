@@ -5,7 +5,7 @@
       <div class="top">
         <div class="left-text">
           <p>Simulate your rolls and track your scores. You'll see your results for each roll along with options for rerolling.</p>
-          <p>Wondering what the chance of a successful roll might be? Click 'Show me the odds!' to find out!</p>
+          <p>Wondering what the chance of a successful roll might be? Click <strong>Show me the odds!</strong> to find out!</p>
         </div>
 
         <div class="right-button">
@@ -50,6 +50,10 @@ export default {
   }
   .left-text {
     max-width: 400px;
+  }
+  .right-button button {
+    background: purple;
+    margin-top: 20px;
   }
 
   @media screen and (max-width: 725px) {
