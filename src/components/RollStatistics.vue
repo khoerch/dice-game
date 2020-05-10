@@ -1,5 +1,5 @@
 <template>
-  <div class="stats">
+  <div class="charts">
 
     <div>
       <button @click="showOddsTable = !showOddsTable">

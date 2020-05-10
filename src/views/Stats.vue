@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="stats">
     <h1>Roll statistics displayed here.</h1>
     <RollStatistics />
   </div>
@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .stats {
+    padding: 3% 7%;
+  }
 </style>
