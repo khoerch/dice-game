@@ -1,17 +1,14 @@
 <template>
   <div class="home">
-    <MainScreen msg="Welcome to Your Dice App"/>
+    <h1>"Welcome to Your Dice App"</h1>/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import MainScreen from '@/components/MainScreen.vue'
 
 export default {
   name: 'Home',
   components: {
-    MainScreen
   }
 }
 </script>

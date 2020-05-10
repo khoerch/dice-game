@@ -1,6 +1,7 @@
 <template>
   <div class="stats">
     <h1>Roll statistics displayed here.</h1>
+    <p>Curious to see how others have rolled? Select the number of dice below and see stats on all the rolls in the database!</p>
     <RollStatistics />
   </div>
 </template>
@@ -19,5 +20,9 @@ export default {
 <style scoped>
   .stats {
     padding: 3% 7%;
+    max-width: 750px;
+  }
+  p {
+    max-width: 400px;
   }
 </style>

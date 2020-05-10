@@ -1,30 +1,32 @@
 <template>
   <div class="charts">
-
-    <div>
-      <button @click="showOddsTable = !showOddsTable">
-          Show me the odds!
+    <div class="dice-select">
+      <button 
+          v-for="(value, index) in dicePicker"
+          @click="selectedDiceNumber = index"
+          :key="value">
+        {{ value }}
       </button>
-      <ProbabilityOverview v-model="showOddsTable"/>
     </div>
 
-    <div class="dice-select">
-      <div v-for="(value, index) in dicePicker" :key="value">
+    <div v-if="selectedDiceNumber >= 0" class="chart-area">
+      <div class="tabs">
         <button 
-            v-bind:class="[index <= selectedDiceNumber ? 'active-dice' : '', 'button']"
-            @click="selectedDiceNumber = index">
-          {{ value }}
+            v-for="value in tabPicker"
+            @click="tabUpdate(value.name)"
+            :key="value.name">
+          {{ value.name }}
         </button>
       </div>
+      <div>
+        <bar-chart v-show="tabPicker[0].visible" :chart-data="chartDataScores" :options="chartOptionsBar"/>
+        <bar-chart v-show="tabPicker[1].visible" :chart-data="chartDataRollTypes" :options="chartOptionsBar"/>
+        <doughnut-chart v-show="tabPicker[2].visible" :chart-data="chartDataSuccesses" :options="chartOptionsDoughnut"/>
+        <!-- <div v-show="tabPicker[3].visible">
+          {{ summarizedData }}
+        </div> -->
+      </div>
     </div>
-
-    <div>
-      {{ summarizedData }}
-    </div>
-
-    <doughnut-chart :chart-data="chartDataSuccesses" :options="chartOptionsDoughnut"/>
-    <bar-chart :chart-data="chartDataScores" :options="chartOptionsBar"/>
-    <bar-chart :chart-data="chartDataRollTypes" :options="chartOptionsBar"/>
 
   </div>
 </template>
@@ -32,19 +34,34 @@
 <script>
 import BarChart from './charts/BarChart'
 import DoughnutChart from './charts/DoughnutChart'
-import ProbabilityOverview from '../components/charts/ProbabilityOverview'
 
 export default {
   name: 'RollStatistics',
   components: {
     BarChart,
     DoughnutChart,
-    ProbabilityOverview
   },
   data: function () {
     return {
-      showOddsTable: false,
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+      tabPicker: [
+        {
+          name: 'Scores',
+          visible: true
+        },
+        {
+          name: 'Roll Types',
+          visible: false
+        },
+        {
+          name: 'Successes',
+          visible: false
+        },
+        // {
+        //   name: 'Summary',
+        //   visible: false
+        // },
+      ],
       selectedDiceNumber: -1,
       summarizedData: null,
       chartDataScores: {},
@@ -69,6 +86,13 @@ export default {
     }
   },
   methods: {
+    tabUpdate(name) {
+      for (const tab of this.tabPicker) {
+        tab.visible = false
+      }
+      const selectedTab = this.tabPicker.find(tab => tab.name === name)
+      selectedTab.visible = true
+    },
     summarizeDataforChart() {
       const rolls = this.$store.state.allRolls.filter(roll => roll.dice === (this.selectedDiceNumber+1))
       const scoreTypes = []
@@ -186,18 +210,17 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  .dice-select, .tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .chart-area {
+    padding: 25px;
+    border-radius: 15px;
+    background: lightgrey;
+  }
+  button {
+    margin: 10px;
+  }
 </style>
