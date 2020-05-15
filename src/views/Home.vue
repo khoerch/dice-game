@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>"Welcome to Your Dice App"</h1>/>
+    <h1>Welcome to Your Dice App</h1>
   </div>
 </template>
 

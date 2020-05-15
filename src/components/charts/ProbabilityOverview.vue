@@ -8,15 +8,23 @@
               <th 
                 v-for="(col, index) in columns" 
                 :key="index" 
+                :class="[index > 2 ? 'inActive' : 'active']"
                 v-on:click="sortTable(col)">
-                  {{ col }}
-                  <div class="arrow" v-if="col == sortColumn" v-bind:class="ascending ? 'arrow_up' : 'arrow_down'"></div>
+                  <div>
+                    <span>{{ col }}</span>
+                    <div class="arrow" v-if="col == sortColumn" v-bind:class="ascending ? 'arrow_up' : 'arrow_down'"></div>
+                  </div>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(row, index) in rows" :key="index">
-              <td v-for="(col, index) in columns" :key="index">{{displayRowData(row[col])}}</td>
+              <td 
+                v-for="(col, index) in columns" 
+                :class="[index > 2 ? 'inActive' : 'active']"
+                :key="index">
+                {{displayRowData(row[col])}}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -187,28 +195,30 @@ export default {
 
   /* Styling for the stats table */
   table {
-    font-family: Helvetica, Arial, sans-serif;
-    width: 750px;
+    max-width: 750px;
     border-collapse: collapse;
     border: 3px solid #44475C;
     margin: 10px 10px 0 10px;
   }
   table th {
-    text-transform: uppercase;
-    text-align: left;
     background: #44475C;
     color: #FFF;
     cursor: pointer;
     padding: 8px;
-    min-width: 30px;
+    min-width: 50px;
   }
   table th:hover {
-          background: #717699;
-        }
+    background: #717699;
+  }
+  table th div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   table td {
-    text-align: left;
+    text-align: center;
     padding: 8px;
-    border-right: 5px solid #7D82A8;
+    /* border-right: 3px solid #44475C; */
   }
   table td:last-child {
     border-right: none;
@@ -217,20 +227,33 @@ export default {
     background: #D4D8F9;
   }
   .arrow_down {
-    border-color: black transparent;
+    border-color: white transparent;
     border-style: solid;
     border-width: 5px 5px 0px 5px;
     height: 0px;
     width: 0px;
   }
   .arrow_up {
-    border-color: black transparent;
+    border-color: white transparent;
     border-style: solid;
     border-width: 0px 5px 5px 5px;
     height: 0px;
     width: 0px;
   }
   .arrow {
-    float: right;
+    margin: 0px 0px 0px 5px;
+  }
+
+  /* Limit table size for smaller screens */
+  @media screen and (max-width: 875px) {
+    .inActive {
+      display: none;
+    }
+    .modal-container {
+      margin: 0px auto;
+      max-width: 300px;
+      font-size: .9em;
+      padding: 0px 20px;
+    }
   }
 </style>

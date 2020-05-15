@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
+      <img 
+        :src="require('@/assets/dice-logo1.svg')" 
+        :alt="diceLogoAlt"/>
       <router-link to="/">Home</router-link> |
       <router-link to="/roll-dice">Roll Dice</router-link> |
       <router-link to="/rules">Rules</router-link> |
@@ -12,6 +15,11 @@
 
 <script>
 export default {
+  data: function () {
+    return {
+      diceLogoAlt: "Dice logo",
+    }
+  },
   mounted: function () {
     this.$store.dispatch('getHistoricalRolls')
   }
@@ -19,25 +27,32 @@ export default {
 </script>
 
 <style>
+body {
+  background: #F2F2F2;
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
-  color: #2c3e50;
+  color: #17252A;
 }
 
 #nav {
-  padding: 30px 7%;
+  padding: 5%;
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #17252A;
+  text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #3AAFA9;
+  text-decoration: underline;
 }
 
 /* Standardize button styling */
@@ -48,8 +63,8 @@ button {
     padding: 0.75rem 1.5rem;
     margin: 0;
     text-decoration: none;
-    background: #0069ed;
-    color: #ffffff;
+    background: #3AAFA9;
+    color: #F2F2F2;
     font-family: inherit;
     font-size: 1rem;
     cursor: pointer;
@@ -61,7 +76,7 @@ button {
 }
 button:hover,
 button:focus {
-    background: #0053ba;
+    background: #2B7A78;
 }
 button:focus {
     outline: 1px solid #fff;
