@@ -1,1 +1,67 @@
-<svg height="512" viewBox="0 0 192 192" width="512" xmlns="http://www.w3.org/2000/svg"><g id="_11-dice" data-name="11-dice"><g id="Glyph"><path d="m97.373 65.775a31.8 31.8 0 0 1 14.627-8.366v-41.409a16 16 0 0 0 -16-16h-72a16 16 0 0 0 -16 16v72a16 16 0 0 0 16 16h35.148zm-17.373-41.775a8 8 0 1 1 -8 8 8 8 0 0 1 8-8zm0 32a8 8 0 1 1 -8 8 8 8 0 0 1 8-8zm-40-32a8 8 0 1 1 -8 8 8 8 0 0 1 8-8zm0 56a8 8 0 1 1 8-8 8 8 0 0 1 -8 8z"/><path d="m176.568 111.03-40.936-40.937a15.974 15.974 0 0 0 -4.685-3.257c-10.131-4.593-20.844-2.479-27.917 4.6l-40.937 40.932a15.974 15.974 0 0 0 -3.257 4.685c-4.593 10.131-2.479 20.844 4.6 27.917l40.936 40.937a15.974 15.974 0 0 0 4.685 3.257c10.131 4.593 20.844 2.479 27.917-4.6l40.937-40.936a15.974 15.974 0 0 0 3.257-4.685c4.589-10.127 2.475-20.843-4.6-27.913zm-56.568 24.97a8 8 0 1 1 8-8 8 8 0 0 1 -8 8z"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="512"
+   viewBox="0 0 192 192"
+   width="512"
+   version="1.1"
+   id="svg4538"
+   sodipodi:docname="dice-logo2.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata4544">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4542" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2736"
+     inkscape:window-height="1699"
+     id="namedview4540"
+     showgrid="false"
+     inkscape:zoom="2.703125"
+     inkscape:cx="253.22543"
+     inkscape:cy="270.79769"
+     inkscape:window-x="-13"
+     inkscape:window-y="-13"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="_11-dice" />
+  <g
+     id="_11-dice"
+     data-name="11-dice"
+     style="fill:#000000;fill-opacity:1;stroke:#bbe9bb;stroke-opacity:0">
+    <g
+       id="Glyph"
+       style="fill:#3aafa9;fill-opacity:1;stroke:#3aafa9;stroke-opacity:1">
+      <path
+         d="m97.373 65.775a31.8 31.8 0 0 1 14.627-8.366v-41.409a16 16 0 0 0 -16-16h-72a16 16 0 0 0 -16 16v72a16 16 0 0 0 16 16h35.148zm-17.373-41.775a8 8 0 1 1 -8 8 8 8 0 0 1 8-8zm0 32a8 8 0 1 1 -8 8 8 8 0 0 1 8-8zm-40-32a8 8 0 1 1 -8 8 8 8 0 0 1 8-8zm0 56a8 8 0 1 1 8-8 8 8 0 0 1 -8 8z"
+         id="path4532"
+         style="fill:#3aafa9;fill-opacity:1;stroke:#3aafa9;stroke-opacity:1" />
+      <path
+         d="m176.568 111.03-40.936-40.937a15.974 15.974 0 0 0 -4.685-3.257c-10.131-4.593-20.844-2.479-27.917 4.6l-40.937 40.932a15.974 15.974 0 0 0 -3.257 4.685c-4.593 10.131-2.479 20.844 4.6 27.917l40.936 40.937a15.974 15.974 0 0 0 4.685 3.257c10.131 4.593 20.844 2.479 27.917-4.6l40.937-40.936a15.974 15.974 0 0 0 3.257-4.685c4.589-10.127 2.475-20.843-4.6-27.913zm-56.568 24.97a8 8 0 1 1 8-8 8 8 0 0 1 -8 8z"
+         id="path4534"
+         style="fill:#3aafa9;fill-opacity:1;stroke:#3aafa9;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>

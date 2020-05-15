@@ -39,9 +39,10 @@ export default {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #17252A;
+    padding: 5% 7%;
   }
   #nav {
-    padding: 5%;
+    /* padding: 5%; */
     display: flex;
   }
   #nav a {
@@ -49,6 +50,7 @@ export default {
     color: #17252A;
     text-decoration: none;
     padding: 7px 20px;
+    margin: 0px 10px
   }
   #nav a.router-link-exact-active {
     background: #3AAFA9;
@@ -58,7 +60,6 @@ export default {
     height: 60px;
   }
   #nav-links {
-    min-width: 450px;
     margin-left: 5%;
     display: flex;
     justify-content: space-evenly;
@@ -96,9 +97,20 @@ export default {
       transform: scale(0.99);
   }
 
-  @media screen and (max-width: 725px) {
-    .nav-links {
-      width: auto;
+  @media screen and (max-width: 600px) {
+    /* .nav-links {
+      min-width: 300px;
+    } */
+    #nav a {
+      padding: 5px 10px;
+      margin: 0px;
+      /* font-size: .9em; */
+    }
+    #nav img {
+      height: 40px;
+    }
+    #nav-links {
+      margin-left: 5%;
     }
   }
 </style>

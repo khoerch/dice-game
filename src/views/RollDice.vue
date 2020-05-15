@@ -1,7 +1,7 @@
 <template>
   <div class="dice">
     <header>
-      <h1>ROLL THEM DICE</h1>
+      <h1>ROLL YOUR DICE HERE</h1>
       <div class="top">
         <div class="left-text">
           <p>Simulate your rolls and track your scores. You'll see your results for each roll along with options for rerolling.</p>
@@ -40,7 +40,7 @@ export default {
 
 <style scoped>
   .dice {
-    padding: 3% 7%;
+    padding-top: 5%;
   }
   .top {
     max-width: 750px;
