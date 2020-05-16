@@ -444,4 +444,9 @@ export default {
       align-items: flex-end;
     }
   }
+  @media screen and (min-width: 1100px) {
+    .game-area {
+      min-width: 700px;
+    }
+  }
 </style>
