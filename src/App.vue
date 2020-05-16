@@ -30,17 +30,18 @@ export default {
 
 <style>
   html {
-    height: 100%;
+    box-sizing: border-box;
+    height: 89%;
+    font-family: Helvetica, Arial, sans-serif;
   }
   body {
     background: #F2F2F2;
     margin: 0;
-    padding: 0;
+    padding: 0 0 100px 0;
     position: relative;
     min-height: 100%;
   }
   #app {
-    font-family: Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #17252A;
@@ -54,15 +55,15 @@ export default {
     font-weight: bold;
     color: #17252A;
     text-decoration: none;
-    padding: 7px 20px;
-    margin: 0px 10px
+    padding: 5px 10px;
+    margin: 0px;
   }
   #nav a.router-link-exact-active {
     background: #3AAFA9;
     color: #f2f2f2;
   }
   #nav img {
-    height: 60px;
+    height: 40px;
   }
   #nav-links {
     margin-left: 5%;
@@ -90,42 +91,37 @@ export default {
       -webkit-appearance: none;
       -moz-appearance: none;
   }
-  button:hover,
-  button:focus {
+  button:hover {
       background: #2B7A78;
   }
-  button:focus {
-      outline: 1px solid #fff;
-      outline-offset: -4px;
-  }
-  button:active {
-      transform: scale(0.99);
-  }
 
+  /* Footer Styling */
   footer {
-    /* position: fixed; */
     background-color: #3AAFA9;
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
     text-align: center;
+    height: 15%;
+    max-height: 120px;
+  }
+  footer p {
+    color: #F2F2F2;
+    font-weight: 600;
+    padding-top: 15px;
+  }
+  footer img {
+    height: 35px;
   }
 
-  @media screen and (max-width: 600px) {
-    /* .nav-links {
-      min-width: 300px;
-    } */
+  @media screen and (min-width: 650px) {
     #nav a {
-      padding: 5px 10px;
-      margin: 0px;
-      /* font-size: .9em; */
+      padding: 7px 20px;
+      margin: 0px 10px;
     }
     #nav img {
-      height: 40px;
-    }
-    #nav-links {
-      margin-left: 5%;
+      height: 60px;
     }
   }
 </style>

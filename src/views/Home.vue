@@ -10,7 +10,7 @@
         :src="require('@/assets/undraw_campfire_s6y4.svg')" 
         alt="campfire"/>
       <div class="campfire-text">
-        <p>Six dice is all it takes to enjoy a nice night around the campfire. This site is for anyone looking to learn a new game or a fix between camping trips.</p>
+        <p>Learn to roll some dice. Perfect for an evening by the campfire.</p>
         <p>Enjoy!</p>
       </div>
     </div>
@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
   .home {
-    padding-top: 5%;
+    padding: 5% 0 10% 0;
     display: flex;
     flex-direction: column;
   }
@@ -60,10 +60,11 @@ export default {
     font-weight: 400;
   }
   .campfire-text {
-    background: #3aafa961;
+    background: #3aafa940;
     border-radius: 15px;
     padding: 1px 20px;
-    width: 80%;
+    margin-top: 15px;
+    width: 60%;
   }
 
   @media screen and (min-width: 850px) {
@@ -78,7 +79,7 @@ export default {
       text-align: right;
       padding-top: 1%;
       max-width: 500px;
-      font-size: 1.3em;
+      font-size: 1.1em;
     }
   }
 </style>

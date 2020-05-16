@@ -381,9 +381,10 @@ export default {
     padding: 25px;
     border-radius: 15px;
     display: flex;
+    flex-direction: column;
     align-items: stretch;
     justify-content: space-between;
-    background: lightgrey;
+    background: #3aafa940;
   }
   .start-button {
     display: flex;
@@ -393,16 +394,20 @@ export default {
   .dice-select, .reroll-options {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
+    margin-top: 10px;
   }
   .reroll-options button {
     margin: 5px 0px;
   }
+  .roll-result {
+    text-align: center;
+  }
   .score-totals {
-    background: rgb(46, 46, 46);
+    background: #17252a;
     border-radius: 10px;
-    color: white;
+    color: #f2f2f2;
     padding: 15px;
     margin-bottom: 15px;
     display: flex;
@@ -428,19 +433,15 @@ export default {
     color: red;
   }
   .finish-button {
-    background:rgb(94, 94, 94)
+    background:#17252a
   }
 
-  @media screen and (max-width: 725px) {
+  @media screen and (min-width: 725px) {
     .game-area {
-      flex-direction: column;
+      flex-direction: row;
     }
     .dice-select, .reroll-options {
-      align-items: center;
-      margin-top: 10px;
-    }
-    .roll-result{
-      text-align: center;
+      align-items: flex-end;
     }
   }
 </style>

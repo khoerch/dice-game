@@ -45,23 +45,24 @@ export default {
   .top {
     max-width: 750px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
   }
   .left-text {
-    max-width: 400px;
+    max-width: 600px;
   }
   .right-button button {
-    background: purple;
+    background: #2b7a78;
     margin-top: 20px;
   }
 
-  @media screen and (max-width: 725px) {
+  @media screen and (min-width: 725px) {
     .top {
-      flex-direction: column;
+      flex-direction: row;
     }
     .left-text {
-      max-width: 600px;
+      max-width: 400px;
     }
   }
 </style>
