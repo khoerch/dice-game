@@ -29,10 +29,15 @@ export default {
 </script>
 
 <style>
+  html {
+    height: 100%;
+  }
   body {
     background: #F2F2F2;
     margin: 0;
     padding: 0;
+    position: relative;
+    min-height: 100%;
   }
   #app {
     font-family: Helvetica, Arial, sans-serif;
@@ -95,6 +100,16 @@ export default {
   }
   button:active {
       transform: scale(0.99);
+  }
+
+  footer {
+    /* position: fixed; */
+    background-color: #3AAFA9;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
   }
 
   @media screen and (max-width: 600px) {
