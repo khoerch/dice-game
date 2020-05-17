@@ -376,6 +376,9 @@ export default {
   .simulator {
     margin: 50px 0px;
     max-width: 750px;
+    /* background: no-repeat center url(../assets/undraw_moonlight_5ksn.svg);
+    background-size: contain;
+    height: 400px; */
   }
   .game-area {
     padding: 25px;

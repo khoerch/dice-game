@@ -19,7 +19,7 @@
     <div class="content">
       <DiceSimulator />
       <img :src="require('../assets/undraw_moonlight_5ksn.svg')" alt="moonlight campfire"/>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -61,8 +61,9 @@ export default {
   }
   .dice img {
     width: 100%;
-    /* max-width: 750px; */
-    margin-top: 50px;
+    max-width: 600px;
+    margin: 10px 0;
+    align-self: center;
   }
   .content {
     display: flex;
@@ -76,16 +77,9 @@ export default {
     .left-text {
       max-width: 400px;
     }
-  }
-  @media screen and (min-width: 1400px) {
-    .content {
-      flex-direction: row;
-      justify-content: space-between;
-    }
     .dice img {
-      width: 40%;
-      margin: 50px;
-      align-self: flex-end;
+      margin-bottom: 0;
+      margin-top: 75px;
     }
   }
 </style>
