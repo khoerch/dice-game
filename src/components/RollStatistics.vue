@@ -1,12 +1,14 @@
 <template>
   <div class="charts">
     <div class="dice-select">
-      <button 
-          v-for="(value, index) in dicePicker"
-          @click="selectedDiceNumber = index"
-          :key="value">
-        {{ value }}
-      </button>
+      <img 
+        v-for="(dice, index) in diceImages" 
+        :src="require('../assets/' + dice + '.svg')"
+        :alt="dice"
+        :class="index === selectedDiceNumber ? 'selected' : 'notSelected' "
+        @click="selectedDiceNumber = index"
+        :tabindex="index"
+        :key="index"/>
     </div>
 
     <div v-if="selectedDiceNumber >= 0" class="chart-area">
@@ -44,6 +46,7 @@ export default {
   data: function () {
     return {
       dicePicker: ['One', 'Two', 'Three', 'Four', 'Five', 'Six'],
+      diceImages: ['dice1', 'dice2', 'dice3', 'dice4', 'dice5', 'dice6'],
       tabPicker: [
         {
           name: 'Scores',
@@ -119,7 +122,7 @@ export default {
         datasets: [{
             label: '# of Scores',
             data: chartSummary.map(elem => elem.data),
-            backgroundColor: [],
+            backgroundColor: ['#3aafa9'],
             borderColor: [],
             borderWidth: 1
         }]
@@ -188,7 +191,7 @@ export default {
         datasets: [{
             label: '# of Roll Types',
             data: [this.summarizedData.totalTriples, this.summarizedData.totalQuads, this.summarizedData.totalQuints, this.summarizedData.totalSexts, this.summarizedData.totalThreePairs, this.summarizedData.totalStraights],
-            backgroundColor: [],
+            backgroundColor: ['#3aafa9', '#3aafa9', '#3aafa9', '#ffbf00', '#3aafa9', '#3aafa9'],
             borderColor: [],
             borderWidth: 1
         }]
@@ -199,7 +202,7 @@ export default {
         datasets: [{
             label: '# of Rolls',
             data: [this.summarizedData.totalSuccesses, (this.summarizedData.totalRolls - this.summarizedData.totalSuccesses)],
-            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+            backgroundColor: ['#3aafa9', '#2b7a78'],
             borderColor: [],
             borderWidth: 1
         }]
@@ -217,10 +220,27 @@ export default {
   }
   .chart-area {
     padding: 25px;
+    margin: 4% 0;
     border-radius: 15px;
-    background: lightgrey;
+    background: #3aafa940;
   }
   button {
     margin: 10px;
+  }
+  button:focus {
+    background: #2B7A78;
+    outline: none;
+    font-weight: 600;
+  }
+  img {
+    padding: 0.8rem;
+    margin: 5px;
+    cursor: pointer;
+    height: 4rem;
+  }
+  img:hover, .selected {
+    border-radius: 25px;
+    background: #2B7A78;
+    outline: none;
   }
 </style>

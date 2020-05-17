@@ -74,25 +74,25 @@ export default {
 
   /* Standardize button styling */
   button {
-      display: inline-block;
-      border: none;
-      border-radius: 5px;
-      padding: 0.75rem 1.5rem;
-      margin: 0;
-      text-decoration: none;
-      background: #3AAFA9;
-      color: #F2F2F2;
-      font-family: inherit;
-      font-size: 1rem;
-      cursor: pointer;
-      text-align: center;
-      transition: background 250ms ease-in-out, 
-                  transform 150ms ease;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1.5rem;
+    margin: 0;
+    text-decoration: none;
+    background: #3AAFA9;
+    color: #F2F2F2;
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
   button:hover {
-      background: #2B7A78;
+    background: #2B7A78;
   }
 
   /* Footer Styling */
