@@ -94,6 +94,9 @@ export default {
   button:hover {
     background: #2B7A78;
   }
+  button:focus {
+    outline: none;
+  }
 
   /* Footer Styling */
   footer {

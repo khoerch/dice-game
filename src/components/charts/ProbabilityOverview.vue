@@ -183,7 +183,7 @@ export default {
     min-height: 400px;
     margin: 0px auto;
     padding: 20px 30px;
-    background-color: #fff;
+    background-color: #f2f2f2;
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
@@ -197,18 +197,18 @@ export default {
   table {
     max-width: 750px;
     border-collapse: collapse;
-    border: 3px solid #44475C;
+    border: 3px solid #2b7a78;
     margin: 10px 10px 0 10px;
   }
   table th {
-    background: #44475C;
-    color: #FFF;
+    background: #2b7a78;
+    color: #f2f2f2;
     cursor: pointer;
     padding: 8px;
     min-width: 50px;
   }
   table th:hover {
-    background: #717699;
+    background: #3aafa9;
   }
   table th div {
     display: flex;
@@ -224,7 +224,7 @@ export default {
     border-right: none;
   }
   table tbody tr:nth-child(2n) td {
-    background: #D4D8F9;
+    background: #bdebe8;
   }
   .arrow_down {
     border-color: white transparent;

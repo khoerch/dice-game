@@ -446,10 +446,16 @@ export default {
     .dice-select, .reroll-options {
       align-items: flex-end;
     }
+    img {
+      max-height: 50px;
+    }
   }
   @media screen and (min-width: 1100px) {
     .game-area {
       min-width: 700px;
+    }
+    img {
+      max-height: 50px;
     }
   }
 </style>
