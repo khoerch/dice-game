@@ -5,7 +5,7 @@
         v-for="(dice, index) in diceImages" 
         :src="require('../assets/' + dice + '.svg')"
         :alt="dice"
-        :class="index === selectedDiceNumber ? 'selected' : 'notSelected' "
+        :class="index === selectedDiceNumber ? 'selectedDice' : 'notSelected'"
         @click="selectedDiceNumber = index"
         :tabindex="index"
         :key="index"/>
@@ -14,7 +14,8 @@
     <div v-if="selectedDiceNumber >= 0" class="chart-area">
       <div class="tabs">
         <button 
-            v-for="value in tabPicker"
+            v-for="(value, index) in tabPicker"
+            :class="tabPicker[index].visible ? 'selectedTab' : 'notSelected'"
             @click="tabUpdate(value.name)"
             :key="value.name">
           {{ value.name }}
@@ -77,6 +78,11 @@ export default {
                   ticks: {
                       beginAtZero: true
                   }
+              }],
+              xAxes: [{
+                  gridLines: {
+                    drawOnChartArea: false
+                  }
               }]
           }
       }
@@ -122,7 +128,7 @@ export default {
         datasets: [{
             label: '# of Scores',
             data: chartSummary.map(elem => elem.data),
-            backgroundColor: ['#3aafa9'],
+            backgroundColor: ['#2b7a78', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9', '#3aafa9'],
             borderColor: [],
             borderWidth: 1
         }]
@@ -227,7 +233,7 @@ export default {
   button {
     margin: 10px;
   }
-  button:focus {
+  button:focus, .selectedTab {
     background: #2B7A78;
     outline: none;
     font-weight: 600;
@@ -238,7 +244,7 @@ export default {
     cursor: pointer;
     height: 4rem;
   }
-  img:hover, .selected {
+  img:hover, .selectedDice {
     border-radius: 25px;
     background: #2B7A78;
     outline: none;
