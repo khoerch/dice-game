@@ -43,6 +43,7 @@
           <button 
               v-for="(value, index) in scoringDice" 
               @click="reRollTheDice(value)" 
+              :class="value.specialMessage ? 'full-reroll' : ''"
               :key="index + 100"> 
             {{ defineRerollMessage(value) }}
           </button>
@@ -403,6 +404,11 @@ export default {
   }
   .reroll-options button {
     margin: 5px 0px;
+  }
+  .full-reroll {
+    background: #ffbf00;
+    color: #17252a;
+    font-weight: 600;
   }
   .roll-result {
     text-align: center;
