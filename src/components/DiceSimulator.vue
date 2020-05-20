@@ -391,7 +391,7 @@ export default {
     padding: 0;
   }
   .simulator {
-    margin: 50px 0px;
+    margin: 50px 0px 250px;
     max-width: 750px;
     /* background: no-repeat center url(../assets/undraw_moonlight_5ksn.svg);
     background-size: contain;

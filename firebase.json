@@ -8,7 +8,7 @@
   },
   "hosting": {
     "site": "rollthemdice",
-    "public": "public",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",

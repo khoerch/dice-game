@@ -53,10 +53,12 @@ export default {
   }
   #nav a {
     font-weight: bold;
+    font-size: .9em;
     color: #17252A;
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 5px 8px;
     margin: 0px;
+    text-align: center;
   }
   #nav a.router-link-exact-active {
     background: #3AAFA9;
