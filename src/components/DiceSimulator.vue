@@ -96,6 +96,17 @@ export default {
       this.totalScore += this.currentTurnScore
       if (this.totalScore >= 10000) this.winScenario = true
 
+      // Push turn data to DB
+      const turnData = {
+        scoreForTurn: this.currentTurnScore,
+        rollsInTurn: this.totalRerolls + 1,
+        scoreForRound: this.totalScore,
+        turnsInRound: this.totalTurns,
+        winScenario: this.winScenario,
+        leadingZeroTurns: this.rollResult.score === 0  ? this.zeroTracker - 1 : this.zeroTracker
+      }
+      managedata.setNewTurn(turnData)
+
       // Update variables
       this.totalRerolls = 0
       this.currentTurnScore = 0
@@ -113,6 +124,7 @@ export default {
       this.rollTheDice()
     },
     rollTheDice() {
+      // State changes and updates
       if (this.totalRerolls === 0) this.totalTurns += 1
       this.scoringDice = []
       this.rollResult = {
@@ -128,6 +140,10 @@ export default {
         threePairs: false
       }
       this.turnInProgress = true
+
+      // const [testingResult, testingScoreDice] = diceLogic.main(this.rollResult, this.scoringDice)
+      // console.log(testingResult, testingScoreDice)
+
       const dieNumbers = [Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6), Math.ceil(Math.random() * 6)]
 
       if (this.selectedDiceNumber === 0) this.oneDieRoll(dieNumbers.slice(0,1))

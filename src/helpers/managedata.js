@@ -9,10 +9,20 @@ export default {
     // data.timestamp = FieldValue.serverTimestamp()
     db.collection('rolls').add(data)
     .then(ref => {
-      console.log('updated', ref.id)
+      console.log('New Roll: ', ref.id)
     })
     .catch(err => {
       console.log(err)
     })
   },
+  setNewTurn(data) {
+    // data.timestamp = FieldValue.serverTimestamp()
+    db.collection('turns').add(data)
+    .then(ref => {
+      console.log('New Turn: ', ref.id)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
 }
