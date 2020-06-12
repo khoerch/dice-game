@@ -2,16 +2,32 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // This rule allows anyone on the internet to view, edit, and delete
-    // all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // your app will lose access to your Firestore database
-    match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2020, 6, 2);
+    // Allows all users to read roll data
+    match /rolls/{rollId} {
+      allow read;
+    }
+    // Requires specific fields for posting new rolls
+    match /rolls/{rollId} {
+      allow write: 
+      	if request.resource.data.dice > -2 && 
+        	request.resource.data.dice < 7 &&
+        	request.resource.data.score is number &&
+          request.resource.data.tripleExists is bool &&
+          request.resource.data.quadExists is bool &&
+          request.resource.data.quintExists is bool &&
+          request.resource.data.sextExists is bool &&
+          request.resource.data.threePairs is bool &&
+          request.resource.data.straight is bool;
+    }
+    // Requires specific fields for posting new turns
+    match /turns/{turnId} {
+      allow write: 
+      	if request.resource.data.leadingZeroTurns is number &&
+        	request.resource.data.rollsInTurn is number &&
+        	request.resource.data.scoreForRound is number &&
+        	request.resource.data.scoreForTurn is number &&
+          request.resource.data.turnsInRound is number &&
+          request.resource.data.winScenario is bool;
     }
   }
 }
